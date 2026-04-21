@@ -2,112 +2,153 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Button from "./ui/Button";
+
+import { NAV_LINKS } from "@/config/navigation";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
+
+  // Lock scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    // Cleanup function to ensure scroll is restored if component unmounts
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
 
   return (
-    <nav className="w-full xl:w-[1440px] h-[68px] mx-auto flex items-center justify-between px-6 xl:px-[140px] pt-[25px] pb-[25px] relative z-[100]">
-      <div className="relative flex items-center xl:-mt-[17px]">
-        <div className="relative w-[80px] xl:w-[96px] h-[40px] xl:h-[50px]">
-          <Image
-            src="/logo.png"
-            alt="Opti-Realty Logo"
-            fill
-            className="object-contain"
-            priority
-          />
+    <>
+      <nav className="absolute top-0 left-0 w-full py-3 lg:py-5 flex items-center justify-between z-[100] bg-transparent">
+        <div className="container-custom flex items-center justify-between">
+          <div className="flex items-center gap-4 lg:gap-6">
+          <Link href="/" className="relative w-28 xl:w-32 aspect-[3/1]">
+            <Image
+              src="/logo.png"
+              alt="Opti-Realty Logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </Link>
+          
+          <div className="hidden sm:block w-px h-8 bg-white/20 mx-2" />
+          
+          <div className="hidden sm:flex flex-col justify-center px-4 py-1.5 border border-white/30 rounded-md bg-white/10 backdrop-blur-sm">
+            <span className="text-[10px] text-white/60 font-bold uppercase tracking-wider leading-tight">RERA Registered</span>
+            <span className="text-xs text-white font-bold leading-tight">P02400009684</span>
+          </div>
         </div>
-        <div
-          className="mx-[6px] xl:mx-[8px] opacity-100"
-          style={{
-            width: '1px',
-            height: '35px',
-            backgroundColor: '#FFFFFF80',
-          }}
-        />
-        <div
-          className="flex flex-col justify-center items-center relative scale-90 xl:scale-100"
-          style={{
-            width: '99px',
-            height: '33px',
-            opacity: 0.5,
-            borderRadius: '3px',
-            border: '0.8px solid #FFFFFF',
-          }}
+
+        {/* Desktop Menu */}
+        <div className="hidden xl:flex items-center gap-10">
+          <div className="flex items-center gap-8">
+            {NAV_LINKS.map((link) => (
+              <Link 
+                key={link.label} 
+                href={link.href} 
+                className="text-sm font-semibold text-white/90 hover:text-white transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+          <Button variant="primary" size="sm" className="rounded-full px-8 font-bold shadow-lg shadow-primary/20">
+            Sign Up
+          </Button>
+        </div>
+
+        {/* Mobile Toggle */}
+        <button 
+          className="xl:hidden flex items-center justify-center text-white p-2 z-[150] transition-transform active:scale-90"
+          onClick={toggleMenu}
+          aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-menu"
         >
-          <div style={{ width: '90px', color: '#FFFFFF', fontSize: '10px', fontFamily: 'Inter', fontWeight: 500, lineHeight: '100%' }}>
-            RERA
-          </div>
-          <div
-            style={{
-              width: '90px',
-              height: '15px',
-              fontFamily: 'Inter',
-              fontWeight: 400,
-              fontSize: '12px',
-              lineHeight: '100%',
-              letterSpacing: '0%',
-              opacity: 1,
-              color: '#FFFFFF',
-            }}
-          >
-            P02400009684
-          </div>
-        </div>
-      </div>
-
-      {/* Desktop Menu */}
-      <div className="hidden xl:flex items-center gap-[27px] shrink-0">
-        <Link href="/buy" className="font-['Inter'] font-[500] text-[14px] text-white hover:text-zinc-200">
-          Buy
-        </Link>
-        <Link href="/rent" className="font-['Inter'] font-[500] text-[14px] text-white hover:text-zinc-200">
-          Rent
-        </Link>
-        <Link href="/sell" className="font-['Inter'] font-[500] text-[14px] text-white hover:text-zinc-200">
-          Sell
-        </Link>
-        <Link href="/investment" className="font-['Inter'] font-[500] text-[14px] text-white hover:text-zinc-200">
-          Investment
-        </Link>
-        <Link href="/blogs" className="font-['Inter'] font-[500] text-[14px] text-white hover:text-zinc-200">
-          Blogs
-        </Link>
-        <Link href="/login" className="font-['Inter'] font-[500] text-[14px] text-white hover:text-zinc-200">
-          Log In
-        </Link>
-        <Link href="/signup" className="flex items-center justify-center bg-[#006AFF] px-6 py-2 rounded-[6px] font-['Inter'] font-[600] text-[14px] text-white hover:bg-blue-700">
-          Sign Up
-        </Link>
-      </div>
-
-      <button 
-        className="xl:hidden flex items-center justify-center text-white p-2 z-[110]"
-        onClick={toggleMenu}
-        aria-label="Toggle Menu"
-      >
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          {isMenuOpen ? (
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-          ) : (
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-          )}
-        </svg>
-      </button>
-      <div className={`fixed inset-0 bg-[#001751] z-[105] transition-transform duration-300 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} xl:hidden flex flex-col items-center justify-center gap-8`}>
-        <Link href="/buy" onClick={toggleMenu} className="font-['Inter'] font-[500] text-[18px] text-white">Buy</Link>
-        <Link href="/rent" onClick={toggleMenu} className="font-['Inter'] font-[500] text-[18px] text-white">Rent</Link>
-        <Link href="/sell" onClick={toggleMenu} className="font-['Inter'] font-[500] text-[18px] text-white">Sell</Link>
-        <Link href="/investment" onClick={toggleMenu} className="font-['Inter'] font-[500] text-[18px] text-white">Investment</Link>
-        <Link href="/blogs" onClick={toggleMenu} className="font-['Inter'] font-[500] text-[18px] text-white">Blogs</Link>
-        <Link href="/login" onClick={toggleMenu} className="font-['Inter'] font-[500] text-[18px] text-white">Log In</Link>
-        <Link href="/signup" onClick={toggleMenu} className="bg-[#006AFF] px-8 py-3 rounded-[6px] font-['Inter'] font-[600] text-[18px] text-white">Sign Up</Link>
-
+          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {isMenuOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
       </div>
     </nav>
+
+      <div 
+        id="mobile-menu"
+        className={`fixed inset-0 bg-secondary z-[200] transition-all duration-500 ease-in-out ${
+          isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'
+        } xl:hidden flex flex-col p-8`}
+      >
+        {/* Mobile Menu Header with Close Button */}
+        <div className="flex items-center justify-between mb-16">
+          <Link href="/" onClick={closeMenu} className="relative w-32 h-10">
+            <Image
+              src="/logo.png"
+              alt="Opti-Realty Logo"
+              fill
+              className="object-contain object-left"
+            />
+          </Link>
+          <button 
+            onClick={closeMenu}
+            className="text-white p-2 hover:bg-white/10 rounded-full transition-colors"
+            aria-label="Close Menu"
+          >
+            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="flex flex-col items-start gap-8 mt-4">
+          {NAV_LINKS.map((link, i) => (
+            <Link 
+              key={link.label} 
+              href={link.href} 
+              onClick={closeMenu}
+              className="text-4xl font-bold text-white hover:text-primary transition-all flex items-center gap-4 group"
+            >
+              <span className="text-primary text-2xl opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0">→</span>
+              {link.label}
+            </Link>
+          ))}
+        </div>
+        <div className="mt-auto pt-10 border-t border-white/10">
+          <Button 
+            variant="primary" 
+            size="lg" 
+            onClick={closeMenu}
+            className="w-full rounded-full font-bold py-6 text-xl"
+          >
+            Sign Up Now
+          </Button>
+          <p className="text-white/40 text-center mt-8 text-sm font-medium">
+            © 2026 Opti Realty. Professional Property Solutions.
+          </p>
+        </div>
+      </div>
+
+      {/* Backdrop for mobile menu */}
+      {isMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[190] xl:hidden"
+          onClick={closeMenu}
+        />
+      )}
+    </>
   );
 }
+
