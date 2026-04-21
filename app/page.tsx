@@ -35,24 +35,25 @@ export default function Home() {
   }, [theme]);
 
   return (
-    <div className={`min-h-screen transition-all duration-500 overflow-x-hidden bg-white`}>
+    <div className={`min-h-screen transition-all duration-500 overflow-x-hidden`}>
 
-      <main className="relative w-full xl:h-[665px] h-auto flex flex-col bg-white">
+      <main className="relative z-0 w-full xl:h-[665px] h-auto flex flex-col">
+        <div className="absolute top-0 left-0 w-full xl:h-[500px] h-screen max-h-[500px] z-0 overflow-hidden">
+          <Image
+            src="/hero.jpg"
+            alt="Hero Background"
+            fill
+            className="object-cover opacity-100"
+            priority
+          />
+          <div
+            className="absolute inset-0 transition-colors duration-500"
+            style={{ background: 'linear-gradient(180deg, rgba(0, 23, 81, 1) 0%, hsla(215, 100%, 50%, 0.20) 100%)' }}
+          ></div>
+        </div>
+
         <div className="mx-auto w-full max-w-[1440px] relative h-full">
 
-          <div className="absolute top-0 left-0 w-full xl:h-[500px] h-screen max-h-[500px] z-0 xl:overflow-visible">
-            <Image
-              src="/hero.jpg"
-              alt="Hero Background"
-              fill
-              className="object-cover opacity-100 w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[100vh]"
-              priority
-            />
-            <div
-              className="absolute inset-0 transition-colors duration-500"
-              style={{ background: 'linear-gradient(180deg, rgba(0, 23, 81, 1) 0%, hsla(215, 100%, 50%, 0.20) 100%)' }}
-            ></div>
-          </div>
 
           <div className="absolute top-0 left-0 w-full z-50">
             <Navbar />
@@ -60,14 +61,13 @@ export default function Home() {
 
           <div
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="absolute z-[100] flex items-center rounded-full p-[2px] cursor-pointer bg-[#1C2836] shadow-lg"
+            className="fixed md:absolute z-[100] flex items-center rounded-full p-[2px] cursor-pointer bg-[#1C2836] shadow-lg xl:right-[-60px] right-4"
             style={{
               width: '138px',
               height: '30px',
-              top: '181px',
-              left: '1379px',
+              top: '300px',
               transform: 'rotate(90deg)',
-              transformOrigin: 'top left',
+              transformOrigin: 'top right',
               opacity: 1
             }}
           >
@@ -111,32 +111,38 @@ export default function Home() {
               <h1 className="w-[80%] font-['Inter'] font-[800] text-[28px] sm:text-[32px] xl:text-[44px] leading-[1.2] xl:leading-[100%] tracking-[-0.03em] text-white [text-shadow:0px_1px_7px_rgba(0,0,0,0.1)]">
                 Zero Uncertainty.
               </h1>
-              <p className="w-full whitespace-nowrap font-['Inter'] font-[600] text-[16px] xl:text-[18px] leading-[1.4] xl:leading-[100%] tracking-[-0.03em] text-white [text-shadow:0px_1px_7px_rgba(0,0,0,0.1)]">
-              Buy ready-to-move-in properties with verified documents and bank approvals.
-              </p>
+              <p className="w-full max-w-[572px] mx-auto font-inter font-semibold text-[14px] sm:text-[16px] lg:text-[18px] leading-[1.4] lg:leading-[100%] tracking-[-0.03em] text-white text-center lg:whitespace-nowrap">Buy ready-to-move-in properties with verified documents and bank approvals.</p>
 
           </div>
 
-          <div className="xl:absolute xl:top-[458px] xl:left-1/2 xl:-translate-x-1/2 w-full xl:w-[1160px] xl:h-[84px] z-30 bg-white rounded-[24px] xl:rounded-[42px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] flex flex-col xl:flex-row items-center p-3 xl:p-0 xl:px-[16px] gap-[10px] xl:gap-[8px] border border-zinc-100 max-w-[95%] xl:max-w-none mt-10 xl:mt-0">
-            <div className="w-full xl:w-[123px] h-[52px] rounded-[26px] bg-[#F5F5F5] border border-[#9E9E9E] flex items-center justify-center cursor-pointer hover:bg-zinc-200 transition-colors shrink-0">
-              <span className="font-['Inter'] font-[500] text-[16px] text-zinc-900 mr-2">Buy</span>
-              <svg className="w-5 h-5 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-            </div>
+          <div className="lg:absolute lg:top-[458px] lg:left-1/2 lg:-translate-x-1/2 w-full max-w-[95%] xl:max-w-[1160px] mx-auto xl:h-[84px] z- bg-white rounded-[24px] xl:rounded-[42px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] flex flex-col xl:flex-row items-center p-3 xl:px-4 gap-2 border border-zinc-100 mt-10 xl:mt-0">
 
-            <div className="w-full xl:w-[937px] h-[52px] rounded-[26px] bg-[#F5F5F5] border border-[#1C2836] shadow-[0px_2px_4px_0px_#0000001A] flex items-center pl-[16px] xl:pl-[24px] pr-[16px] shrink-0">
-              <span className="hidden xl:inline font-['Inter'] font-[500] text-[16px] text-[#9E9E9E] whitespace-nowrap">Search Properties : </span>
-              <input
-                type="text"
-                placeholder="Enter Area, City, or ZIP code"
-                className="flex-1 w-full bg-transparent border-none outline-none font-['Inter'] font-[400] text-[16px] text-black xl:text-[#9E9E9E] xl:ml-[5px] placeholder:text-[#9E9E9E]"
-              />
-            </div>
+  <div className="w-full xl:w-auto min-w-[110px] h-[52px] rounded-[26px] bg-[#F5F5F5] border border-[#9E9E9E] flex items-center justify-center cursor-pointer hover:bg-zinc-200 transition-colors shrink-0">
+    <span className="font-inter font-medium text-[16px] text-zinc-900 mr-2">Buy</span>
+    <svg className="w-5 h-5 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </div>
 
-            <button className="w-full xl:w-[52px] h-[52px] bg-[#006AFF] rounded-[26px] xl:rounded-[100px] flex items-center justify-center hover:bg-blue-700 transition-colors shrink-0 xl:p-[14px]">
-              <span className="xl:hidden font-medium text-white mr-2">Search</span>
-              <svg className="w-[20px] h-[20px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-            </button>
-          </div>
+  <div className="flex-1 w-full h-[52px] rounded-[26px] bg-[#F5F5F5] border border-[#1C2836] shadow-[0px_2px_4px_0px_#0000001A] flex items-center px-4">
+    <span className="hidden xl:inline font-inter font-medium text-[16px] text-[#9E9E9E] whitespace-nowrap mr-2">
+      Search Properties :
+    </span>
+    <input
+      type="text"
+      placeholder="Enter Area, City, or ZIP code"
+      className="flex-1 bg-transparent outline-none font-inter text-[16px] text-black xl:text-[#9E9E9E] placeholder:text-[#9E9E9E]"
+    />
+  </div>
+
+  <button className="w-full xl:w-[52px] h-[52px] bg-[#006AFF] rounded-[26px] xl:rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors shrink-0">
+    <span className="xl:hidden font-medium text-white mr-2">Search</span>
+    <svg className="w-[20px] h-[20px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+    </svg>
+  </button>
+
+</div>
 
           <div className="xl:absolute xl:top-[560px] xl:left-1/2 xl:-translate-x-1/2 z-20 flex flex-col items-center gap-[5px] w-full px-4 mt-10 xl:mt-0">
             <div className="flex flex-wrap justify-center gap-[5px] w-full">
@@ -238,7 +244,7 @@ export default function Home() {
         </div>
       </main>
 
-      <div className="relative z-20 bg-white text-[#1C2836] w-full flex flex-col gap-[44px] overflow-visible">
+      <div className="relative z-20 text-[#1C2836] w-full flex flex-col gap-[44px] overflow-visible">
 
         <section className="relative flex flex-col items-center mt-20 xl:mt-0 pt-10">
           <div className="w-full xl:w-[1160px] relative mb-[16px] px-4 xl:px-0">
@@ -260,7 +266,7 @@ export default function Home() {
 
               <button
                 onClick={scrollLeft}
-                className="hidden xl:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-[56px] h-[56px] bg-white rounded-full items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.12)] z-30 hover:scale-105 border border-zinc-100"
+                className="hidden xl:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-[56px] h-[56px] bg-white rounded-full items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.12)] z-50 hover:scale-105 border border-zinc-100"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
@@ -326,7 +332,7 @@ export default function Home() {
 
               <button
                 onClick={scrollRight}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-[56px] h-[56px] bg-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.12)] z-30 hover:scale-105 border border-zinc-100"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-[56px] h-[56px] bg-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.12)] z-50 hover:scale-105 border border-zinc-100"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
@@ -344,15 +350,15 @@ export default function Home() {
         <ImpactStats theme="light" />
         <Programs theme="light" />
 
-        <section className="pt-10 pb-0 bg-white relative flex justify-center" style={{ marginBottom: 0 }}>
-          <div className="relative w-full max-w-[1440px]" style={{ height: '600px' }}>
-            <h2 className="absolute top-0 left-1/2 -translate-x-1/2 w-auto font-['Inter'] font-[700] text-[28px] leading-[100%] tracking-[0%] text-[#1C2836] text-center whitespace-nowrap">
-              Explore Properties on Map
-            </h2>
-            <div className="absolute top-[59px] left-0 w-full bg-zinc-200" style={{ height: '541px' }}>
-              <div className="absolute inset-0 bg-[url('/image.png')] bg-cover bg-center"></div>
-              <div className="absolute inset-0 bg-[#001751]/5 mix-blend-multiply pointer-events-none"></div>
+        <section className="pt-10 pb-0 bg-white relative flex flex-col items-center" style={{ marginBottom: 0 }}>
+          <h2 className="w-full font-['Inter'] font-[700] text-[24px] xl:text-[28px] leading-[100%] tracking-[0%] text-[#1C2836] text-center mb-8">
+            Explore Properties on Map
+          </h2>
+          <div className="relative w-full bg-zinc-200" style={{ height: '541px' }}>
+            <div className="absolute inset-0 bg-[url('/image.png')] bg-cover bg-center"></div>
+            <div className="absolute inset-0 bg-[#001751]/5 mix-blend-multiply pointer-events-none"></div>
 
+            <div className="mx-auto w-full max-w-[1440px] relative h-full">
               {[
                 { left: '246px', top: '126px' },
                 { left: '140px', top: '380px' },
